@@ -1,5 +1,5 @@
 export default function({name}) {
     return (
-        <i className={`m-1 fad fa-${name}`}></i> 
+        <i className={`ml-2 text-lg fad fa-${name}`}></i> 
     )
 }

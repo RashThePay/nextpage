@@ -5,6 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body className="roya">
+        <div className="background"></div>
         <Main />
         <NextScript />
       </body>

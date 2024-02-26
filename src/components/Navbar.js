@@ -8,12 +8,12 @@ export default function myNavbar() {
     <Navbar>
       <NavbarBrand>
       <Image src="/assets/logo-final.svg" width={30} height={30} className="ml-2"/>
-        <p className="font-bold text-inherit">رویا.<span className="text-primary-400">آ</span>.یی</p>
+        <p className="font-bold text-inherit">رویا.<span className="text-primary-700">آ</span>.یی</p>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="/create">
-            <Icon name="palette"/>
+            <Icon name="sparkles"/>
            رویاباف
           </Link>
         </NavbarItem>

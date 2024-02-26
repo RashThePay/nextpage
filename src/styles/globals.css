@@ -6,11 +6,15 @@
   font-family: "Estedad";
   src: url(/src/assets/Estedad.woff2) type("webfont");
 }
-html {
+.background {
   background-image: url(/assets/bg.jpg);
   background-size: cover;
+  position:fixed;
+  height:100dvh;
+  width: 100dvw;
 }
 body {
+  color: #ffffff;
   font-family: Estedad;
   direction: rtl;
 }
