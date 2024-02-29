@@ -4,12 +4,23 @@ import "@/styles/duotone.css";
 import "@/styles/fontawesome.min.css";
 import { NextUIProvider } from '@nextui-org/react'
 
-export default function App({ Component, pageProps }) {
+import { SessionProvider } from "next-auth/react"
+import { useRouter } from "next/router";
+
+
+export default function App({
+  Component,
+  pageProps,
+}) {
+  const router = useRouter
   return (
-    <NextUIProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+    <NextUIProvider navigate={router.push}>
+      <SessionProvider session={pageProps.session}>
+        <Layout>        
+            <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
     </NextUIProvider>
+
   )
 }

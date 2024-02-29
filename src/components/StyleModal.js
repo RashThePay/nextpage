@@ -34,7 +34,7 @@ export default function App() {
     }
     return (
         <>
-            <Button className="bg-default-700" onPress={() => onOpen()}>
+            <Button className="bg-default-700 " onPress={() => onOpen()}>
                 <Icon name="palette" />
                 <Style picked={selectedStyle} />
             </Button>
@@ -49,7 +49,7 @@ export default function App() {
                         <>
                             <ModalHeader className="flex flex-col gap-1">فهرست سبک‌ها</ModalHeader>
                             <ModalBody>
-                                <Grid templateColumns="repeat(auto-fit, calc(100dvw/5))" gap={5}>
+                                <Grid templateColumns="repeat(auto-fit, calc(100dvw/10))" gap={5}>
                                     {styles.map((style) => (
 
                                         <GridItem

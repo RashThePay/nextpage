@@ -1,5 +1,5 @@
-export default function({name}) {
+export default function({name, dir}) {
     return (
-        <i className={`ml-2 text-lg fad fa-${name}`}></i> 
+        <i className={`m${(dir == 'ltr')? 'r' : 'l'}-2 text-lg fad fa-${name}`}></i> 
     )
 }

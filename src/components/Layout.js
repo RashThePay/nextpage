@@ -1,4 +1,5 @@
 import Navbar from "./Navbar"
+import { Flex } from "@chakra-ui/react";
 
 export default function Layout({ children }) {
     return (
@@ -6,7 +7,9 @@ export default function Layout({ children }) {
             <Navbar />
             <main>
                 <section className="m-4">
+                <Flex justifyContent="center">
                     {children}
+                    </Flex>
                 </section>
             </main>
         </>

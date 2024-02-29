@@ -4,21 +4,27 @@ import { useState, useEffect } from "react";
 import { Tabs, Tab } from "@nextui-org/react";
 import styles from "@/styles.json";
 import Dream from "@/components/Dream";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export async function getServerSideProps() {
-  const query = '?sort[0]=createdAt:desc&populate[image][fields][0]=url&populate[prompt]=*&populate[user][fields][0]=username';
-  const response = await fetch(apiDreams + query);
-  const repo = await response.json();
-  return { props: { repo } };
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, authOptions)
+  if (session) {
+    const query = '?sort[0]=createdAt:desc&populate=*&filters[user][username][$eq]='+session.user.name;
+    const response = await fetch(apiDreams + query);
+    const repo = await response.json();
+    return { props: { repo, session } };
+  }
+  return;
 }
 
-export default function Page({ repo }) {
+export default function Page({ repo, session }) {
   
   const [style, setStyle] = useState(null)
   const [dreams, setDreams] = useState(repo.data)
   useEffect(() => {
     if (style > 0) {
-      const query = '?sort[0]=createdAt:desc&populate=*&filters[style][$eq]='+style;
+      const query = '?sort[0]=createdAt:desc&populate=*&filters[style][$eq]='+style+"&filters[user][username][$eq]="+session.user.name;
       fetch(apiDreams+query)
         .then((res) => res.json())
         .then((data) => {
@@ -54,5 +60,5 @@ export default function Page({ repo }) {
     </>
 
   );
-  return ('not found')
+  return (<span className="z-10">پروفایل شما خالی است...</span>)
 }
