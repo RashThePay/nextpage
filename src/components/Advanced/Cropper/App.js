@@ -9,6 +9,7 @@ import { canvasPreview } from './canvasPreview'
 import { useDebounceEffect } from './useDebounceEffect'
 
 import 'react-image-crop/dist/ReactCrop.css'
+import Image from 'next/image'
 
 // This is to demonstate how to make and center a % aspect crop
 // which is a bit trickier so we use some helper functions.
@@ -99,7 +100,7 @@ export default function App() {
           minHeight={100}
           // circularCrop
         >
-          <img
+          <Image
             ref={imgRef}
             alt="Crop me"
             src={imgSrc}

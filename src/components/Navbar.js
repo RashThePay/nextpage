@@ -7,7 +7,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 
 
-export default function myNavbar() {
+export default function Navbar() {
   const router = useRouter();
   const currentPath = router.pathname;
   const { data: session } = useSession()
