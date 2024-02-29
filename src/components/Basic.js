@@ -16,7 +16,7 @@ export default function Basic({session}) {
         fetch(apiDreams + query)
             .then(response => response.json())
             .then(result => { loadHistory(result.data.splice(0, 5)); })
-    }, [isLoading, session])
+    }, [isLoading])
 
     async function onSubmit(event) {
         event.preventDefault()
@@ -64,7 +64,7 @@ export default function Basic({session}) {
                         <Grid dir="ltr" templateColumns="repeat(5, 1fr)" gap={10} className="my-3 ">
                             {history?.map((prev) => {
                                 return (
-                                    <GridItem className="aspect-square overflow-hidden">
+                                    <GridItem key={prev.id} className="aspect-square overflow-hidden">
                                         <Dream dream={prev} hasFooter={false} />
                                     </GridItem>
 

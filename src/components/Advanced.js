@@ -161,7 +161,7 @@ export default function Advanced({ session }) {
                         <Grid dir="ltr" templateColumns="repeat(8, 1fr)" gap={10} className="my-3 ">
                             {history?.map((prev) => {
                                 return (
-                                    <GridItem className="aspect-square overflow-hidden">
+                                    <GridItem key={prev.id} className="aspect-square overflow-hidden">
                                         <Dream dream={prev} hasFooter={false} />
                                     </GridItem>
 
