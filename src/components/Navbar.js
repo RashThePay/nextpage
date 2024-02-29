@@ -7,7 +7,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 
 
 
-export default function Navbar() {
+export default function RoyaNavbar() {
   const router = useRouter();
   const currentPath = router.pathname;
   const { data: session } = useSession()
