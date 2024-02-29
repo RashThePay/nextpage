@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "Estedad";
-  src: url(/src/assets/Estedad.woff2) type("webfont");
+  src: url(/assets/Estedad.woff2) type("webfont");
 }
 .background {
   background-image: url(/assets/bg.jpg);

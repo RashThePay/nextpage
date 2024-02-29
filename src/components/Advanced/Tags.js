@@ -1,28 +1,19 @@
-import { useState, useMemo, useEffect } from "react";
-import { api } from "@/api";
+import { useState } from "react";
 import React from "react";
-import { Autocomplete, AutocompleteItem, Chip, Button } from "@nextui-org/react";
-import Icon from "../Icon";
+import { Autocomplete, AutocompleteItem, Chip } from "@nextui-org/react";
 
-export default function App({ mode }) {
-    const [query, setQuery] = useState('');
-    const [list, setList] = useState([]);
-    useMemo(() => {
-        if (query.length) {
-            fetch(api + "/tags?sort[0]=used:desc&filters[type][$eq]=" + mode + "&filters[text][$contains]=" + query)
-                .then(response => response.json())
-                .then(result => {
-                    if (result.data.length) {
-                        const tagsx = result.data;
-                        setList([{ id: 0, attributes: { text: query, type: mode } }, ...tagsx]);
-                    } else {
-                        setList([{ id: 0, attributes: { text: query, type: mode } }])
-                    }
-                })
-        }
-    }, [query])
+
+
+export default function App({ mode }) {  
+    const tagsjson = {
+        "negative": ["آناتومی ضعیف", "نامشخص", "بریده", "بدریخت", "کپی", "اشتباه", "دست اضافی", "پای اضافی", "بی‌تناسب", "گردن بلند", "کیفیت پایین", "وضوح پایین", "بدون پا یا دست", "ناسالم", "جهش ژنتیکی", "خارج از کادر", "متن درج شده", "غیرجذاب", "ناواضح", "بدکیفیت", "کج‌ومعوج", "متن", "حروف", "بدکشیده‌شده", "ناقص", "دست‌نویس", "تار", "مات", "قدیمی", "کات‌شده", "کراپ‌شده", "نامتناسب", "پیچیده", "درهم‌برهم", "دوتایی", "انگشت اضافی", "نقص", "دست عجیب", "پای عجیب", "هیکل عجیب", "بدهیکل", "چشم عجیب", "زشت", "بی‌ریخت", "داغون", "نصفه", "زیادی روشن", "زیادی تیره", "ویرایش‌شده", "شدید", "ضعیف", "ترسناک", "عجیب‌غریب", "مبالغه", "کاریکاتور", "شکسته", "معیوب", "نادرست", "غلط", "برعکس", "تغییریافته", "جهش‌یافته", "کم‌نور", "تاریک"],
+        "positive": ["دیجیتال آرت", "نقاشی دیجیتال", "هایپررئال", "فوق‌واقعی", "فانتزی", "تاریک", "دارک", "آرت‌استیشن Artstation", "دیوینت آرت Deviant Art", "جزئیات زیاد", "باجزئیات", "فوکوس تیز", "فوکوس شارپ", "علمی‌تخیلی", "سای‌فای", "دیستوپیا", "یوتوپیا", "نورپردازی استودیو", "سینمایی", "پس‌زمینه‌ی رنگی", "کانسپت آرت", "انتزاعی", "نورپردازی دراماتیک", "دقیق", "ظریف", "اکتان رندر", "کلوس‌آپ", "باکیفیت", "کیفیت اچ‌دی HD", "شاهکار", "فول‌اچ‌دی", "خوش‌عکس", "فوتوژنیک", "انیمه", "کارتون", "بازی کامپیوتری", "ویدیو گیم", "آنریل انجین Unreal Engine", "اثر هنری", "تصویر واقعی"]
+    } 
+    const positive = Array.from(tagsjson.positive, (value, index) => ({id: index, tag: value}))
+    const negative = Array.from(tagsjson.negative, (value, index) => ({id: index, tag: value}))
     const [tags, setTags] = useState([]);
-    function addTag(tag) {
+    function addTag(tag, el) {
+        document.getElementsByClassName(`tags-${mode}`)[0].querySelector('input').value = '';
         const temp = [...tags, tag]
         setTags(temp);
     }
@@ -38,10 +29,9 @@ export default function App({ mode }) {
             {(tags.length < 5) ? (<Autocomplete
                 allowsCustomValue
                 menuTrigger="input"
-                onInputChange={(input) => setQuery(input)}
-                onSelectionChange={(text) => addTag(text)}
+                onSelectionChange={(text) => addTag(text, this)}
                 classNames={{
-                    base: "border-none p-0",
+                    base: "border-none p-0 "+`tags-${mode}`,
                     listboxWrapper: "max-h-[320px]",
                     listbox: "flex flex-row flex-wrap",
                     selectorButton: "text-default-foreground",
@@ -68,18 +58,18 @@ export default function App({ mode }) {
                         ],
                     },
                 }}
-                defaultItems={list}
-                aria-label="positive-tags"
+                defaultItems={(mode == 'positive') ? positive : negative}
+                aria-label={`${mode}-tags`}
                 placeholder={(mode == 'positive') ? "راهنما" : "منفی"}
                 radius="full"
                 variant="flat"
                 size="sm"
-
+                className={`tags-${mode}`}
             >
                 {(item) => (
-                    <AutocompleteItem key={item.attributes.text}
-                        textValue={item.attributes.text}>
-                        <span className="text-small">{item.attributes.text}</span>
+                    <AutocompleteItem key={item.tag}
+                        textValue={item.tag}>
+                        <span className="text-small">{item.tag}</span>
                     </AutocompleteItem>
                 )}
             </Autocomplete>) : ""}
@@ -87,7 +77,7 @@ export default function App({ mode }) {
                 {tags.length ? tags.map((tag) => {
                     return (
                         <>
-                            <Chip key={tag} className="text-xs p-0.5" color={(mode == "positive") ? "primary" : "danger"} onClick={() => removeTag(tag)}>{tag}</Chip>
+                            <Chip key={"chip-"+tag} className="text-xs p-0.5" color={(mode == "positive") ? "primary" : "danger"} onClick={() => removeTag(tag)}>{tag}</Chip>
                             <input type="hidden" name={mode} value={tag} />
                         </>
                     )
